@@ -3,9 +3,9 @@ This is a command line Python tool that started from the hackertarget.com API I 
 
 I have incorportated many other tools into this since starting it not all use the hackertarget api.
 
-1 - DNS Lookup - URL
-2 - Reverse DNS Lookup - IP Address
-3 - GeoIP Lookup API - IP Address
+- DNS Lookup - URL
+- Reverse DNS Lookup - IP Address
+- GeoIP Lookup API - IP Address
 4 - Reverse IP Lookup - IP Address
 5 - HTTP Headers - URL
 6 - Page Links - URL
