@@ -6,14 +6,14 @@ I have incorportated many other tools into this since starting it not all use th
 - DNS Lookup - URL
 - Reverse DNS Lookup - IP Address
 - GeoIP Lookup API - IP Address
-4 - Reverse IP Lookup - IP Address
-5 - HTTP Headers - URL
-6 - Page Links - URL
-7 - AS Lookup - IP Address
-8 - Traceroute - Host/IP
-9 - Port Scanner - Host/IP
-10 - Ping - Host/IP
-11 - Banner Grab - Host/IP and Port
-12 - OS Detection - Host/IP
-13 - Network Scanner (Local Subnet)
-14 - Service Check (SMB/Telnet/FTP/SFTP/SSH) - Host/IP
+- Reverse IP Lookup - IP Address
+- HTTP Headers - URL
+- Page Links - URL
+- AS Lookup - IP Address
+- Traceroute - Host/IP
+- Port Scanner - Host/IP
+- Ping - Host/IP
+- Banner Grab - Host/IP and Port
+- OS Detection - Host/IP
+- Network Scanner (Local Subnet)
+- Service Check (SMB/Telnet/FTP/SFTP/SSH) - Host/IP
