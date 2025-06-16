@@ -1,9 +1,19 @@
 # hackertargetAPI
-This is a command line python program for the hackertarget.com API.
+This is a command line Python tool that started from the hackertarget.com API I have since then added to it few times.
 
-I have incorportated all the free api calls but more advanced ones require an API Key which you will need to pay for
+I have incorportated many other tools into this since starting it not all use the hackertarget api.
 
-https://hackertarget.com/ip-tools/ - There is a limit of 50 API calls per day from a single IP address as a Free user
-MTR Traceroute API - requires API KeY - https://api.hackertarget.com/mtr/?q=8.8.8.8&apikey=**APIKEYREQUIRED**
-Test Ping API - requires API KeY - https://api.hackertarget.com/nping/?q=8.8.8.8&apikey=**APIKEYREQUIRED**
-Whois Lookup API - requires API KeY - https://api.hackertarget.com/whois/?q=8.8.8.8&apikey=**APIKEYREQUIRED**
+1 - DNS Lookup - URL
+2 - Reverse DNS Lookup - IP Address
+3 - GeoIP Lookup API - IP Address
+4 - Reverse IP Lookup - IP Address
+5 - HTTP Headers - URL
+6 - Page Links - URL
+7 - AS Lookup - IP Address
+8 - Traceroute - Host/IP
+9 - Port Scanner - Host/IP
+10 - Ping - Host/IP
+11 - Banner Grab - Host/IP and Port
+12 - OS Detection - Host/IP
+13 - Network Scanner (Local Subnet)
+14 - Service Check (SMB/Telnet/FTP/SFTP/SSH) - Host/IP
