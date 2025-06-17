@@ -1,7 +1,7 @@
 # hackertargetAPI
 This is a command line Python tool that started from the hackertarget.com API I have since then added to it few times.
 
-I have incorportated many other tools into this since starting it not all use the hackertarget api.
+I have incorporated many other tools into this since starting it, not all use the hackertarget api.
 
 - DNS Lookup - URL
 - Reverse DNS Lookup - IP Address
@@ -17,3 +17,7 @@ I have incorportated many other tools into this since starting it not all use th
 - OS Detection - Host/IP
 - Network Scanner (Local Subnet)
 - Service Check (SMB/Telnet/FTP/SFTP/SSH) - Host/IP
+- Generate Hard Password
+- SSL Certificate Check - URL
+- SMTP Server Check - Host/IP and Port
+- IP Calculator - CIDR/IP Info
