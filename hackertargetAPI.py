@@ -4,6 +4,12 @@ import platform
 import socket
 import ipaddress
 import threading
+import random
+import string
+import secrets
+import ssl
+from datetime import datetime, UTC
+import smtplib
 
 # ----------- Menu Display -----------
 print('1 - DNS Lookup - URL')
@@ -20,6 +26,10 @@ print('11 - Banner Grab - Host/IP and Port')
 print('12 - OS Detection - Host/IP')
 print('13 - Network Scanner (Local Subnet)')
 print('14 - Service Check (SMB/Telnet/FTP/SFTP/SSH) - Host/IP')
+print('15 - Generate Hard Password')
+print('16 - SSL Certificate Check - URL')
+print('17 - SMTP Server Check - Host/IP and Port')
+print('18 - IP Calculator - CIDR/IP Info')
 
 # ----------- Functions -----------
 
@@ -165,8 +175,77 @@ def network_scanner():
     for t in threads:
         t.join()
 
+def generate_strong_password(length=16):
+    if length < 12:
+        print("Warning: Length is short; consider 12+ for better security.")
+    lower = string.ascii_lowercase
+    upper = string.ascii_uppercase
+    digits = string.digits
+    symbols = string.punctuation
+    all_chars = lower + upper + digits + symbols
+    password = [
+        secrets.choice(lower),
+        secrets.choice(upper),
+        secrets.choice(digits),
+        secrets.choice(symbols)
+    ]
+    password += [secrets.choice(all_chars) for _ in range(length - 4)]
+    random.shuffle(password)
+    return ''.join(password)
+
+def check_ssl_cert(hostname):
+    port = 443
+    context = ssl.create_default_context()
+    try:
+        with socket.create_connection((hostname, port), timeout=5) as sock:
+            with context.wrap_socket(sock, server_hostname=hostname) as ssock:
+                cert = ssock.getpeercert()
+                print("\n🔒 SSL Certificate Info:")
+                print(f"  - Common Name (CN): {cert['subject'][0][0][1]}")
+                print(f"  - Issuer: {cert['issuer'][0][0][1]}")
+                print(f"  - Valid From: {cert['notBefore']}")
+                print(f"  - Valid Until: {cert['notAfter']}")
+                expiry_date = datetime.strptime(cert['notAfter'], '%b %d %H:%M:%S %Y %Z').replace(tzinfo=UTC)
+                if expiry_date < datetime.now(UTC):
+                    print("  - ⚠️ Certificate has EXPIRED!")
+                else:
+                    print("  - ✅ Certificate is valid.")
+    except Exception as e:
+        print(f"[!] SSL certificate check failed: {e}")
+
+def check_smtp_server(host, port=25, use_tls=False):
+    try:
+        print(f"Connecting to SMTP server {host}:{port} {'with TLS' if use_tls else ''}...")
+        server = smtplib.SMTP(host, port, timeout=5)
+        server.ehlo()
+        if use_tls:
+            server.starttls()
+            server.ehlo()
+        banner = server.noop()  # Basic command to keep it alive
+        print(f"SMTP connection successful, NOOP response: {banner}")
+        server.quit()
+    except Exception as e:
+        print(f"[!] SMTP check failed: {e}")
+
+def ip_calculator():
+    try:
+        cidr_input = input("Enter IP address with CIDR (e.g., 192.168.1.10/24): ").strip()
+        network = ipaddress.ip_network(cidr_input, strict=False)
+
+        print("\n📡 IP Calculator Results:")
+        print(f"  ➤ Network Address : {network.network_address}")
+        print(f"  ➤ Broadcast Address: {network.broadcast_address}")
+        print(f"  ➤ Subnet Mask     : {network.netmask}")
+        print(f"  ➤ Wildcard Mask   : {ipaddress.IPv4Address(int(network.hostmask))}")
+        print(f"  ➤ Total Hosts     : {network.num_addresses - 2 if network.prefixlen < 31 else network.num_addresses}")
+        print(f"  ➤ First Usable IP : {list(network.hosts())[0] if network.prefixlen < 31 else 'N/A'}")
+        print(f"  ➤ Last Usable IP  : {list(network.hosts())[-1] if network.prefixlen < 31 else 'N/A'}")
+        print(f"  ➤ Prefix Length   : /{network.prefixlen}")
+    except ValueError as e:
+        print(f"[!] Invalid input: {e}")
+
 # ----------- User Input -----------
-tool = int(input('Pick your tool (1-14): '))
+tool = int(input('Pick your tool (1-18): '))
 
 # ----------- Logic -----------
 if tool in [1, 2, 3, 4, 5, 6, 7]:
@@ -202,5 +281,19 @@ elif tool in [8, 9, 10, 11, 12, 14]:
         check_services(target)
 elif tool == 13:
     network_scanner()
+elif tool == 15:
+    length = int(input("Enter password length (min 12): "))
+    password = generate_strong_password(length)
+    print("Generated Password:", password)
+elif tool == 16:
+    target = input('Enter domain (e.g., example.com): ')
+    check_ssl_cert(target)
+elif tool == 17:
+    host = input("Enter SMTP Host/IP: ")
+    port = int(input("Enter SMTP Port (e.g., 25, 465, 587): "))
+    tls = input("Use TLS? (yes/no): ").strip().lower() == 'yes'
+    check_smtp_server(host, port, use_tls=tls)
+elif tool == 18:
+    ip_calculator()
 else:
     print("Invalid tool number.")
